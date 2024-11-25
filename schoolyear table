@@ -1,0 +1,76 @@
+import { Button, Table, Tooltip } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/pro-regular-svg-icons";
+
+export default function TableSchoolYear(props) {
+    const {
+        dataSource,
+        onChangeTable,
+        setToggleModalSchoolYear,
+        selectedRowKeys,
+        setSelectedRowKeys,
+    } = props;
+
+    const columns = [
+        {
+            key: "action",
+            title: "Action",
+            align: "center",
+            width: 30,
+            render: (_, record) => (
+                <Tooltip title="View/Edit">
+                    <Button
+                        type="link"
+                        className="w-auto h-auto p-0"
+                        icon={<FontAwesomeIcon icon={faEdit} />}
+                        onClick={() => {
+                            setToggleModalSchoolYear({
+                                open: true,
+                                data: record,
+                            });
+                        }}
+                    />
+                </Tooltip>
+            ),
+        },
+        {
+            key: "sy_from",
+            title: "Sy From",
+            dataIndex: "sy_from",
+            width: 150,
+        },
+        {
+            key: "sy_to",
+            title: "Sy To",
+            dataIndex: "sy_to",
+            width: 150,
+        },
+        {
+            key: "created_at_format",
+            title: "Created",
+            dataIndex: "created_at_format",
+            defaultSortOrder: "descend",
+            width: 150,
+        },
+    ];
+
+    return (
+        <Table
+            id="tbl20"
+            rowKey={(record) => record.id}
+            dataSource={dataSource}
+            columns={columns}
+            pagination={false}
+            bordered={false}
+            onChange={onChangeTable}
+            scroll={{ x: "max-content" }}
+            sticky
+            rowSelection={{
+                selectedRowKeys,
+                onChange: (selectedRowKeys) => {
+                    setSelectedRowKeys(selectedRowKeys);
+                },
+            }}
+        />
+    );
+}
